@@ -508,7 +508,7 @@ footer p{color:var(--text-dimmer);font-size:.83rem}
 
 <script>
 const EMAIL = "jersontagulao8@gmail.com";
-const FORM_ID = "4fda2971892abeef95ecf4a71eca59f3"; // FormSubmit activation ID (forwards to your Gmail)
+const WEB3FORMS_KEY = "70529565-69d2-46d3-889e-cbfe0b4abb59"; // from web3forms.com (sent to your Gmail)
 
 /* ---------- theme ---------- */
 const root = document.documentElement, themeToggle = document.getElementById('themeToggle');
@@ -624,13 +624,13 @@ document.getElementById('contactForm').addEventListener('submit', async function
   }
   btn.disabled = true; btn.textContent = 'Sending...';
   try{
-    const res = await fetch('https://formsubmit.co/ajax/' + FORM_ID, {
+    const res = await fetch('https://api.web3forms.com/submit', {
       method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'},
       body: JSON.stringify({
+        access_key: WEB3FORMS_KEY,
         name, email:from, message:msg,
-        _honey: document.getElementById('fHoney').value,
-        _subject:'Portfolio message from ' + name,
-        _replyto:from, _template:'table', _captcha:'false'
+        subject:'Portfolio message from ' + name,
+        botcheck: document.getElementById('fHoney').value
       })
     });
     let data = {}; try{ data = await res.json(); }catch(_){}
