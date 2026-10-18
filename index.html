@@ -148,8 +148,9 @@ html[data-theme="light"] .theme-toggle .knob{transform:translateX(24px)}
 .info-card .value{font-weight:600;font-size:.95rem;overflow-wrap:anywhere}
 
 /* skills */
-.skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:28px;align-items:start}
+.skills-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;align-items:stretch}
 .skill-card{padding:30px 26px}
+.skill-card.wide{grid-column:1/-1}
 .skill-card h3{font-family:var(--display);font-size:1.15rem;margin-bottom:22px;display:flex;align-items:center;gap:10px}
 .skill-card h3::before{content:"";width:8px;height:8px;border-radius:2px;background:var(--grad-accent);transform:rotate(45deg)}
 .skill-row{margin-bottom:18px}.skill-row:last-child{margin-bottom:0}
@@ -245,9 +246,10 @@ footer p{color:var(--text-dimmer);font-size:.83rem}
   .hero-grid,.about-grid,.contact-wrap,.cert-grid{grid-template-columns:1fr}
   .hero-visual{order:-1}
   .project-grid{grid-template-columns:1fr 1fr}
+  .skills-grid{grid-template-columns:1fr 1fr}
 }
 @media(max-width:620px){
-  .project-grid,.info-grid{grid-template-columns:1fr}
+  .project-grid,.info-grid,.skills-grid{grid-template-columns:1fr}
   .section{padding:90px 0}
 }
 @media(prefers-reduced-motion:reduce){
@@ -327,7 +329,7 @@ footer p{color:var(--text-dimmer);font-size:.83rem}
       </div>
       <div class="info-grid reveal">
         <div class="info-card glass"><div class="label">Full Name</div><div class="value">Jerson Tagulao</div></div>
-        <div class="info-card glass"><div class="label">Age</div><div class="value">21 years old</div></div>
+        <div class="info-card glass"><div class="label">Course</div><div class="value">BS Information Technology</div></div>
         <div class="info-card glass"><div class="label">Email</div><div class="value">jersontagulao8@gmail.com</div></div>
         <div class="info-card glass"><div class="label">Phone</div><div class="value">+63 994 460 4096</div></div>
         <div class="info-card glass"><div class="label">Location</div><div class="value">Bamban, Tarlac, Philippines</div></div>
@@ -392,16 +394,16 @@ footer p{color:var(--text-dimmer);font-size:.83rem}
     <div class="section-head reveal">
       <div class="eyebrow">certifications</div>
       <h2 class="section-title">Cisco <span>coursework</span></h2>
-      <p class="section-sub">Completed CCNA courses through Cisco Networking Academy.</p>
+      <p class="section-sub">Certificates earned from Cisco Networking Academy (CCNA courses).</p>
     </div>
     <div class="cert-grid">
       <div class="cert-card glass reveal">
         <div class="cert-badge">CCNA</div>
-        <div class="cert-body"><h3>Introduction to Networks (ITN)</h3><p>Network architecture, addressing, and Ethernet basics.</p><span class="cert-status">Completed</span></div>
+        <div class="cert-body"><h3>Introduction to Networks (ITN)</h3><p>Network architecture, addressing, and Ethernet basics.</p><span class="cert-status">Certificate earned</span></div>
       </div>
       <div class="cert-card glass reveal">
         <div class="cert-badge">CCNA</div>
-        <div class="cert-body"><h3>Switching, Routing &amp; Wireless Essentials (SRWE)</h3><p>VLANs, inter-VLAN routing, STP, and wireless LAN configuration.</p><span class="cert-status">Completed</span></div>
+        <div class="cert-body"><h3>Switching, Routing &amp; Wireless Essentials (SRWE)</h3><p>VLANs, inter-VLAN routing, STP, and wireless LAN configuration.</p><span class="cert-status">Certificate earned</span></div>
       </div>
     </div>
   </div>
@@ -425,7 +427,6 @@ footer p{color:var(--text-dimmer);font-size:.83rem}
           <div class="tech-tags"><span>React</span><span>JavaScript</span><span>Firebase</span><span>HTML</span><span>CSS</span></div>
           <div class="proj-actions">
             <a href="https://evosas-dct.com/" target="_blank" rel="noopener" class="btn btn-primary">Live demo</a>
-            <a href="https://github.com/ukree1" target="_blank" rel="noopener" class="btn btn-ghost">GitHub</a>
           </div>
         </div>
       </div>
@@ -438,7 +439,6 @@ footer p{color:var(--text-dimmer);font-size:.83rem}
           <div class="tech-tags"><span>React</span><span>JavaScript</span><span>Firebase</span><span>Vercel</span></div>
           <div class="proj-actions">
             <a href="https://ticketing-system-zeta-steel.vercel.app/" target="_blank" rel="noopener" class="btn btn-primary">Live demo</a>
-            <a href="https://github.com/ukree1" target="_blank" rel="noopener" class="btn btn-ghost">GitHub</a>
           </div>
         </div>
       </div>
@@ -448,10 +448,9 @@ footer p{color:var(--text-dimmer);font-size:.83rem}
           <h3>Motorcycle Maintenance Application</h3>
           <span class="proj-role mono">Role: Full Stack Developer</span>
           <p>A motorcycle maintenance app that helps users manage motorcycle records, monitor maintenance activities, and track service expenses. Includes secure sign-in, motorcycle management, and a dashboard for organizing maintenance information.</p>
-          <div class="tech-tags"><span>Flutter</span><span>Dart</span><span>CSS</span><span>Firebase</span><span>Vercel</span></div>
+          <div class="tech-tags"><span>Flutter</span><span>Dart</span><span>Firebase</span><span>Vercel</span></div>
           <div class="proj-actions">
             <a href="https://motorcycleapp-swart.vercel.app/" target="_blank" rel="noopener" class="btn btn-primary">Live demo</a>
-            <a href="https://github.com/ukree1" target="_blank" rel="noopener" class="btn btn-ghost">GitHub</a>
           </div>
         </div>
       </div>
@@ -563,20 +562,21 @@ let ri=0, ci=0, del=false;
 
 /* ---------- skills (data-driven) ---------- */
 const skills = {
-  "Networking":[["Cisco Packet Tracer",85],["Cisco IOS",78],["TCP/IP",82],["VLAN",75],["OSPF",68],["Routing & Switching",80]],
-  "Web Development":[["HTML5",90],["CSS3",88],["JavaScript",78],["React.js",68],["Bootstrap",80],["Firebase",65]],
-  "Development Tools":[["Visual Studio Code",90],["Git",75],["GitHub",78],["Vite",65]],
-  "Deployment":[["Firebase Hosting",75],["Vercel",70]],
+  "Networking":[["Cisco Packet Tracer",85],["Cisco IOS",78],["TCP/IP",82],["VLAN",85],["OSPF",68],["Routing & Switching",80]],
+  "Web Development":[["HTML5",90],["CSS3",88],["JavaScript",85],["React.js",85],["Bootstrap",83],["Firebase",88]],
+  "Programming & Frameworks":[["Python",94],["PHP",92],["Dart",92],["C++",91],["Laravel",90],["Flutter",90]],
+  "Databases & Deployment":[["SQL",93],["NoSQL",91],["Firebase Hosting",88],["Vercel",84]],
+  "Development Tools":[["Visual Studio Code",90],["Git",87],["GitHub",91],["Vite",94]],
   "Soft Skills":[["Problem Solving",88],["Communication",85],["Teamwork",90],["Time Management",82]]
 };
 const grid = document.getElementById('skillsGrid');
 Object.entries(skills).forEach(([title, rows])=>{
   const card = document.createElement('div'); card.className = 'skill-card glass reveal';
-  card.innerHTML = '<h3>'+title+'</h3>' + rows.map(([n,v])=>
+  card.innerHTML = '<h3>'+title.replace(/&/g,'&amp;')+'</h3>' + rows.map(([n,v])=>
     '<div class="skill-row" data-value="'+v+'"><div class="skill-row-top"><b>'+n.replace(/&/g,'&amp;')+'</b><span>'+v+'%</span></div><div class="bar-track"><div class="bar-fill"></div></div></div>').join('');
   grid.appendChild(card);
 });
-const chips = document.createElement('div'); chips.className = 'skill-card glass reveal';
+const chips = document.createElement('div'); chips.className = 'skill-card glass reveal wide';
 chips.innerHTML = '<h3>IT Support</h3><div class="tech-tags" style="margin:0">' + ['Hardware Troubleshooting','Software Troubleshooting','Technical Support','Computer Networking','User Authentication','Role-based Access'].map(s=>'<span>'+s+'</span>').join('') + '</div>';
 grid.appendChild(chips);
 
@@ -630,12 +630,13 @@ thanksModal.addEventListener('click', e=>{ if(e.target === thanksModal) closeTha
 document.addEventListener('keydown', e=>{ if(e.key === 'Escape') closeThanks(); });
 
 /* ---------- contact form: sends real email via FormSubmit (no mail app needed) ---------- */
+const loadedAt = Date.now();
 document.getElementById('contactForm').addEventListener('submit', async function(e){
   e.preventDefault();
   const btn = this.querySelector('button'), status = document.getElementById('formStatus');
   const name = document.getElementById('fName').value.trim(), from = document.getElementById('fEmail').value.trim(), msg = document.getElementById('fMsg').value.trim();
   status.className = 'form-status'; status.textContent = '';
-  if(document.getElementById('fHoney').value) return;
+  if(document.getElementById('fHoney').value || Date.now() - loadedAt < 3000) return;
   if(!name || !msg || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(from)){ status.className = 'form-status err'; status.textContent = 'Please fill in your name, a valid email, and a message.'; return; }
   if(location.protocol === 'file:'){
     status.className = 'form-status err';
@@ -646,7 +647,12 @@ document.getElementById('contactForm').addEventListener('submit', async function
   try{
     const res = await fetch('https://formsubmit.co/ajax/' + FORM_ID, {
       method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'},
-      body: JSON.stringify({name, email:from, message:msg, _subject:'Portfolio message from ' + name, _replyto:from, _template:'table', _captcha:'false'})
+      body: JSON.stringify({
+        name, email:from, message:msg,
+        _honey: document.getElementById('fHoney').value,
+        _subject:'Portfolio message from ' + name,
+        _replyto:from, _template:'table', _captcha:'false'
+      })
     });
     let data = {}; try{ data = await res.json(); }catch(_){}
     if(!res.ok || String(data.success) === 'false') throw new Error(data.message || ('HTTP ' + res.status));
