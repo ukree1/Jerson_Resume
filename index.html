@@ -153,11 +153,11 @@ html[data-theme="light"] .theme-toggle .knob{transform:translateX(24px)}
 .skill-card.wide{grid-column:1/-1}
 .skill-card h3{font-family:var(--display);font-size:1.15rem;margin-bottom:22px;display:flex;align-items:center;gap:10px}
 .skill-card h3::before{content:"";width:8px;height:8px;border-radius:2px;background:var(--grad-accent);transform:rotate(45deg)}
-.skill-row{margin-bottom:18px}.skill-row:last-child{margin-bottom:0}
-.skill-row-top{display:flex;justify-content:space-between;font-size:.85rem;margin-bottom:7px;color:var(--text-dim)}
-.skill-row-top b{color:var(--text);font-weight:500}
-.bar-track{height:7px;border-radius:100px;background:var(--surface-strong);overflow:hidden}
-.bar-fill{height:100%;border-radius:100px;background:var(--grad-accent);width:0;transition:width 1.4s cubic-bezier(.2,.8,.2,1)}
+.skill-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:14px}
+.skill-item{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;font-size:.74rem;line-height:1.3;color:var(--text-dim);transition:transform .3s,color .3s}
+.skill-item:hover{transform:translateY(-4px);color:var(--text)}
+.skill-icon{width:52px;height:52px;border-radius:14px;background:#f3f4f8;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:#2a1a4d;font-weight:700;font-family:var(--display);box-shadow:0 6px 16px -8px rgba(var(--glow),.5)}
+.skill-icon img{width:30px;height:30px;object-fit:contain}
 
 /* timeline */
 .timeline{position:relative;max-width:780px;margin:0 auto;padding-left:40px}
@@ -293,7 +293,7 @@ footer p{color:var(--text-dimmer);font-size:.83rem}
       <div class="type-line mono">&gt; <span id="typeTarget"></span><span class="cursor">&nbsp;</span></div>
       <p class="hero-desc">IT student passionate about programming and continuously developing my skills in networking and technical support. I enjoy building software projects while strengthening my knowledge of Cisco routing and switching. My goal is to become a skilled Network Technician and eventually grow into a Network Engineer.</p>
       <div class="hero-actions">
-        <a href="resume.pdf" id="resumeBtn" class="btn btn-primary">Download resume</a>
+        <a href="resume.pdf" download="Jerson-Tagulao-Resume.pdf" id="resumeBtn" class="btn btn-primary">Download resume</a>
         <a href="#projects" class="btn btn-ghost">View projects</a>
         <a href="#contact" class="btn btn-ghost">Contact me</a>
       </div>
@@ -345,7 +345,7 @@ footer p{color:var(--text-dimmer);font-size:.83rem}
     <div class="section-head reveal">
       <div class="eyebrow">skills</div>
       <h2 class="section-title">What I <span>bring to the table</span></h2>
-      <p class="section-sub">Self-rated proficiency across networking, web, tools, and soft skills.</p>
+      <p class="section-sub">Technologies, tools, and skills I work with.</p>
     </div>
     <div class="skills-grid" id="skillsGrid"></div>
   </div>
@@ -560,22 +560,29 @@ let ri=0, ci=0, del=false;
   setTimeout(typeLoop, del ? 40 : 85);
 })();
 
-/* ---------- skills (data-driven) ---------- */
+/* ---------- skills (icons) ---------- */
+/* 'dev:' = Devicon logo (loaded from CDN) · anything else = emoji/text icon */
+const D = 'https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/';
 const skills = {
-  "Networking":[["Cisco Packet Tracer",85],["Cisco IOS",78],["TCP/IP",82],["VLAN",85],["OSPF",68],["Routing & Switching",80]],
-  "Web Development":[["HTML5",90],["CSS3",88],["JavaScript",85],["React.js",85],["Bootstrap",83],["Firebase",88]],
-  "Programming & Frameworks":[["Python",94],["PHP",92],["Dart",92],["C++",91],["Laravel",90],["Flutter",90]],
-  "Databases & Deployment":[["SQL",93],["NoSQL",91],["Firebase Hosting",88],["Vercel",84]],
-  "Development Tools":[["Visual Studio Code",90],["Git",87],["GitHub",91],["Vite",94]],
-  "Soft Skills":[["Problem Solving",88],["Communication",85],["Teamwork",90],["Time Management",82]]
+  "Networking":[["Cisco Packet Tracer","🌐"],["Cisco IOS","⌨️"],["TCP/IP","🔗"],["VLAN","🧩"],["OSPF","🛰️"],["Routing & Switching","🔀"]],
+  "Web Development":[["HTML5","dev:html5/html5-original"],["CSS3","dev:css3/css3-original"],["JavaScript","dev:javascript/javascript-original"],["React.js","dev:react/react-original"],["Bootstrap","dev:bootstrap/bootstrap-original"],["Firebase","dev:firebase/firebase-plain"]],
+  "Programming & Frameworks":[["Python","dev:python/python-original"],["PHP","dev:php/php-original"],["Dart","dev:dart/dart-original"],["C++","dev:cplusplus/cplusplus-original"],["Laravel","dev:laravel/laravel-original"],["Flutter","dev:flutter/flutter-original"]],
+  "Databases & Deployment":[["SQL","dev:mysql/mysql-original"],["NoSQL","dev:mongodb/mongodb-original"],["Firebase Hosting","dev:firebase/firebase-plain"],["Vercel","dev:vercel/vercel-original"],["Netlify","dev:netlify/netlify-original"]],
+  "Development Tools":[["Visual Studio Code","dev:vscode/vscode-original"],["Visual Studio 2022","dev:visualstudio/visualstudio-plain"],["Git","dev:git/git-original"],["GitHub","dev:github/github-original"],["Vite","dev:vitejs/vitejs-original"]],
+  "Soft Skills":[["Problem Solving","🧠"],["Communication","💬"],["Teamwork","🤝"],["Time Management","⏱️"]]
 };
+const esc = t => t.replace(/&/g,'&amp;').replace(/</g,'&lt;');
 const grid = document.getElementById('skillsGrid');
 Object.entries(skills).forEach(([title, rows])=>{
   const card = document.createElement('div'); card.className = 'skill-card glass reveal';
-  card.innerHTML = '<h3>'+title.replace(/&/g,'&amp;')+'</h3>' + rows.map(([n,v])=>
-    '<div class="skill-row" data-value="'+v+'"><div class="skill-row-top"><b>'+n.replace(/&/g,'&amp;')+'</b><span>'+v+'%</span></div><div class="bar-track"><div class="bar-fill"></div></div></div>').join('');
+  card.innerHTML = '<h3>'+esc(title)+'</h3><div class="skill-list">' + rows.map(([n,ic])=>{
+    const icon = ic.startsWith('dev:') ? '<img src="'+D+ic.slice(4)+'.svg" alt="'+esc(n)+'" loading="lazy">' : ic;
+    return '<div class="skill-item"><div class="skill-icon">'+icon+'</div><span>'+esc(n)+'</span></div>';
+  }).join('') + '</div>';
   grid.appendChild(card);
 });
+/* if a logo fails to load, show the first letters instead */
+grid.querySelectorAll('.skill-icon img').forEach(im=>im.addEventListener('error',()=>{ im.replaceWith(document.createTextNode(im.alt.slice(0,2))); }));
 const chips = document.createElement('div'); chips.className = 'skill-card glass reveal wide';
 chips.innerHTML = '<h3>IT Support</h3><div class="tech-tags" style="margin:0">' + ['Hardware Troubleshooting','Software Troubleshooting','Technical Support','Computer Networking','User Authentication','Role-based Access'].map(s=>'<span>'+s+'</span>').join('') + '</div>';
 grid.appendChild(chips);
@@ -583,35 +590,7 @@ grid.appendChild(chips);
 /* ---------- reveal + skill bars ---------- */
 const revealObserver = new IntersectionObserver(es=>es.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add('visible'); revealObserver.unobserve(en.target); } }),{threshold:.15});
 document.querySelectorAll('.reveal,.tl-item').forEach(el=>revealObserver.observe(el));
-const skillObserver = new IntersectionObserver(es=>es.forEach(en=>{ if(en.isIntersecting){
-  const row = en.target; requestAnimationFrame(()=>{ row.querySelector('.bar-fill').style.width = row.dataset.value + '%'; });
-  skillObserver.unobserve(row);
-}}),{threshold:.4});
-document.querySelectorAll('.skill-row').forEach(r=>skillObserver.observe(r));
-
 document.getElementById('year').textContent = new Date().getFullYear();
-
-/* ---------- resume download: uses your uploaded resume.pdf, falls back to a built-in copy ---------- */
-/* >>> PASTE YOUR ORIGINAL RESUME_B64 STRING BETWEEN THE QUOTES BELOW (the long one from your old file) <<< */
-const RESUME_B64 = "";
-function saveBlob(blob){
-  const url = URL.createObjectURL(blob), a = document.createElement('a');
-  a.href = url; a.download = 'Jerson-Tagulao-Resume.pdf'; document.body.appendChild(a); a.click(); a.remove();
-  setTimeout(()=>URL.revokeObjectURL(url), 2000);
-}
-document.getElementById('resumeBtn').addEventListener('click', async function(e){
-  e.preventDefault();
-  try{
-    const res = await fetch('resume.pdf', {cache:'no-cache'});
-    if(!res.ok || !(res.headers.get('content-type')||'').includes('pdf')) throw new Error('missing');
-    saveBlob(await res.blob());
-  }catch(_){
-    if(!RESUME_B64){ alert('Resume file not found. Please add resume.pdf next to this page.'); return; }
-    const bin = atob(RESUME_B64), bytes = new Uint8Array(bin.length);
-    for(let i=0;i<bin.length;i++) bytes[i] = bin.charCodeAt(i);
-    saveBlob(new Blob([bytes], {type:'application/pdf'}));
-  }
-});
 
 /* ---------- profile picture: tries profile.jpg / .jpeg / .png / .webp ---------- */
 (function(){
