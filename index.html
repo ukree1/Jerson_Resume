@@ -175,6 +175,8 @@ html[data-theme="light"] .theme-toggle .knob{transform:translateX(24px)}
 .cert-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:26px}
 .cert-card{padding:28px;display:flex;gap:20px;transition:transform .35s,border-color .35s}
 .cert-card:hover{transform:translateY(-6px);border-color:var(--accent)}
+/* last card spans full width when the count is odd */
+.cert-card:last-child:nth-child(odd){grid-column:1/-1}
 .cert-badge{flex-shrink:0;width:56px;height:56px;border-radius:14px;background:var(--grad-btn);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:700;color:#fff;font-size:.9rem}
 .cert-body h3{font-family:var(--display);font-size:1.03rem;margin-bottom:6px}
 .cert-body p{color:var(--text-dim);font-size:.86rem;margin-bottom:10px}
@@ -300,7 +302,7 @@ footer p{color:var(--text-dimmer);font-size:.83rem}
       <div class="hero-stats">
         <div><b>3</b><span>Featured Projects</span></div>
         <div><b>2027</b><span>Expected Graduation</span></div>
-        <div><b>2</b><span>Cisco Courses Completed</span></div>
+        <div><b>5</b><span>Certificates Earned</span></div>
       </div>
     </div>
     <div class="hero-visual">
@@ -393,17 +395,29 @@ footer p{color:var(--text-dimmer);font-size:.83rem}
   <div class="container">
     <div class="section-head reveal">
       <div class="eyebrow">certifications</div>
-      <h2 class="section-title">Cisco <span>coursework</span></h2>
-      <p class="section-sub">Certificates earned from Cisco Networking Academy (CCNA courses).</p>
+      <h2 class="section-title">Certificates <span>earned</span></h2>
+      <p class="section-sub">Certificates earned through Cisco Networking Academy: CCNA networking courses, cybersecurity, and JavaScript.</p>
     </div>
     <div class="cert-grid">
       <div class="cert-card glass reveal">
         <div class="cert-badge">CCNA</div>
-        <div class="cert-body"><h3>Introduction to Networks (ITN)</h3><p>Network architecture, addressing, and Ethernet basics.</p><span class="cert-status">Certificate earned</span></div>
+        <div class="cert-body"><h3>Enterprise Networking, Security, and Automation (ENSA)</h3><p>WAN technologies, network security, network management, and automation concepts.</p><span class="cert-status">Earned · Oct 19, 2026</span></div>
+      </div>
+      <div class="cert-card glass reveal">
+        <div class="cert-badge">CYBER</div>
+        <div class="cert-body"><h3>Introduction to Cybersecurity</h3><p>Cyber threats, vulnerabilities, and how to protect data, devices, and networks.</p><span class="cert-status">Earned · Dec 26, 2025</span></div>
       </div>
       <div class="cert-card glass reveal">
         <div class="cert-badge">CCNA</div>
-        <div class="cert-body"><h3>Switching, Routing &amp; Wireless Essentials (SRWE)</h3><p>VLANs, inter-VLAN routing, STP, and wireless LAN configuration.</p><span class="cert-status">Certificate earned</span></div>
+        <div class="cert-body"><h3>Switching, Routing &amp; Wireless Essentials (SRWE)</h3><p>VLANs, inter-VLAN routing, STP, and wireless LAN configuration.</p><span class="cert-status">Earned · May 07, 2025</span></div>
+      </div>
+      <div class="cert-card glass reveal">
+        <div class="cert-badge">CCNA</div>
+        <div class="cert-body"><h3>Introduction to Networks (ITN)</h3><p>Network architecture, addressing, and Ethernet basics.</p><span class="cert-status">Earned · Nov 20, 2024</span></div>
+      </div>
+      <div class="cert-card glass reveal">
+        <div class="cert-badge">JSE</div>
+        <div class="cert-body"><h3>JavaScript Essentials 1 (JSE)</h3><p>JavaScript fundamentals: variables, data types, operators, control flow, and functions.</p><span class="cert-status">Earned · Jan 02, 2024</span></div>
       </div>
     </div>
   </div>
@@ -608,7 +622,7 @@ document.getElementById('thanksClose').addEventListener('click', closeThanks);
 thanksModal.addEventListener('click', e=>{ if(e.target === thanksModal) closeThanks(); });
 document.addEventListener('keydown', e=>{ if(e.key === 'Escape') closeThanks(); });
 
-/* ---------- contact form: sends real email via FormSubmit (no mail app needed) ---------- */
+/* ---------- contact form: sends real email via Web3Forms (no mail app needed) ---------- */
 const loadedAt = Date.now();
 document.getElementById('contactForm').addEventListener('submit', async function(e){
   e.preventDefault();
